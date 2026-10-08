@@ -1,0 +1,14 @@
+{% extends "admin/index.html" %}
+{% block content %}
+{% if stats %}
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:20px">
+  <div style="border:1px solid var(--hairline-color,#ddd);padding:12px;border-radius:6px"><strong style="font-size:1.6rem">{{ stats.total_users }}</strong><br>Total users</div>
+  <div style="border:1px solid var(--hairline-color,#ddd);padding:12px;border-radius:6px"><strong style="font-size:1.6rem">{{ stats.active_users }}</strong><br>Active users</div>
+  <div style="border:1px solid var(--hairline-color,#ddd);padding:12px;border-radius:6px"><strong style="font-size:1.6rem">{{ stats.staff_users }}</strong><br>Staff users</div>
+  <div style="border:1px solid var(--hairline-color,#ddd);padding:12px;border-radius:6px"><strong style="font-size:1.6rem">{{ stats.groups }}</strong><br>Groups</div>
+  <div style="border:1px solid var(--hairline-color,#ddd);padding:12px;border-radius:6px"><strong style="font-size:1.6rem">{{ stats.logins_today }}</strong><br>Logins today</div>
+  <div style="border:1px solid var(--hairline-color,#ddd);padding:12px;border-radius:6px"><strong style="font-size:1.6rem">{{ stats.failed_today }}</strong><br>Failed logins today</div>
+</div>
+{% endif %}
+{{ block.super }}
+{% endblock %}

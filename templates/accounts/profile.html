@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Profile{% endblock %}
+{% block content %}
+<div class="card narrow">
+  <h1>My profile · ព័ត៌មានផ្ទាល់ខ្លួន</h1>
+  <form method="post" novalidate>
+    {% csrf_token %}
+    {% for field in user_form %}
+      <label for="{{ field.id_for_label }}">{{ field.label }}</label>{{ field }}{{ field.errors }}
+    {% endfor %}
+    {% for field in profile_form %}
+      <label for="{{ field.id_for_label }}">{{ field.label }}</label>{{ field }}{{ field.errors }}
+    {% endfor %}
+    <button class="btn" type="submit">Save changes</button>
+    <a class="btn small" href="{% url 'accounts:password_change' %}">Change password</a>
+  </form>
+</div>
+{% endblock %}

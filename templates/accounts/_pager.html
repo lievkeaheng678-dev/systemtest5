@@ -1,0 +1,7 @@
+{% if page.paginator.num_pages > 1 %}
+<div class="pager">
+  {% if page.has_previous %}<a href="?page={{ page.previous_page_number }}{% if query %}&q={{ query|urlencode }}{% endif %}{% if selected %}&action={{ selected }}{% endif %}">&larr; Previous</a>{% endif %}
+  <span class="muted">Page {{ page.number }} of {{ page.paginator.num_pages }}</span>
+  {% if page.has_next %}<a href="?page={{ page.next_page_number }}{% if query %}&q={{ query|urlencode }}{% endif %}{% if selected %}&action={{ selected }}{% endif %}">Next &rarr;</a>{% endif %}
+</div>
+{% endif %}

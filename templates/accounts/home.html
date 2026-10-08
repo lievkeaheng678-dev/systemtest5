@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+  <h1>Administration &amp; Identity Management</h1>
+  <p>ប្រព័ន្ធគ្រប់គ្រង និងការគ្រប់គ្រងអត្តសញ្ញាណ — user management and back-end security for the project.</p>
+  <a class="btn" href="{% url 'accounts:login' %}">Login</a>
+  <a class="btn ok" href="{% url 'accounts:register' %}">Create account</a>
+</div>
+<div class="grid">
+  <div class="card"><h2>Django Admin</h2><p>Customised users, groups, permissions and a read-only audit log in <code>admin.py</code>.</p></div>
+  <div class="card"><h2>Authentication</h2><p>Register, login, logout, password change and group permissions.</p></div>
+  <div class="card"><h2>Sessions &amp; view protection</h2><p>30-minute session timeout, <code>@login_required</code> and <code>@permission_required</code>.</p></div>
+</div>
+{% endblock %}

@@ -1,0 +1,49 @@
+{% load static i18n %}<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Identity Management{% endblock %} | ប្រព័ន្ធគ្រប់គ្រង</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Khmer:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+<header class="topbar">
+  <nav class="wrap" aria-label="Main">
+    <a class="brand" href="{% url 'accounts:home' %}">ក្រុមទី ៥ · Administration &amp; Identity</a>
+    {% if user.is_authenticated %}
+      <a href="{% url 'accounts:dashboard' %}">Dashboard</a>
+      <a href="{% url 'accounts:profile' %}">Profile</a>
+      <a href="{% url 'accounts:security_plan' %}">Security plan</a>
+      {% if perms.auth.view_user %}<a href="{% url 'accounts:user_list' %}">Users</a>{% endif %}
+      {% if perms.accounts.view_activitylog %}<a href="{% url 'accounts:activity_log' %}">Activity log</a>{% endif %}
+      {% if user.is_staff %}<a href="{% url 'admin:index' %}">Admin</a>{% endif %}
+      <form method="post" action="{% url 'accounts:logout' %}">{% csrf_token %}
+        <button type="submit" class="link">Logout ({{ user.username }})</button>
+      </form>
+    {% else %}
+      <a href="{% url 'accounts:login' %}">Login</a>
+      <a href="{% url 'accounts:register' %}">Register</a>
+    {% endif %}
+    <form class="lang" method="post" action="{% url 'set_language' %}">{% csrf_token %}
+      <input type="hidden" name="next" value="{{ request.get_full_path }}">
+      <label for="lang" class="sr" style="display:none">Language</label>
+      <select id="lang" name="language" onchange="this.form.submit()">
+        {% get_current_language as CUR %}
+        {% get_available_languages as LANGS %}
+        {% for code, name in LANGS %}
+          <option value="{{ code }}"{% if code == CUR %} selected{% endif %}>{{ name }}</option>
+        {% endfor %}
+      </select>
+    </form>
+  </nav>
+</header>
+<main class="wrap">
+  {% if messages %}
+  <ul class="messages">{% for m in messages %}<li class="{{ m.tags }}">{{ m }}</li>{% endfor %}</ul>
+  {% endif %}
+  {% block content %}{% endblock %}
+</main>
+</body>
+</html>

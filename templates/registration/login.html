@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Login{% endblock %}
+{% block content %}
+<div class="card narrow">
+  <h1>Login · ចូលប្រើប្រាស់</h1>
+  <form method="post" novalidate>
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+    <label for="{{ form.username.id_for_label }}">Username · ឈ្មោះអ្នកប្រើ</label>
+    {{ form.username }}{{ form.username.errors }}
+    <label for="{{ form.password.id_for_label }}">Password · ពាក្យសម្ងាត់</label>
+    {{ form.password }}{{ form.password.errors }}
+    <input type="hidden" name="next" value="{{ next }}">
+    <button class="btn" type="submit">Login</button>
+  </form>
+  <p class="muted">No account? <a href="{% url 'accounts:register' %}">Register</a></p>
+</div>
+{% endblock %}

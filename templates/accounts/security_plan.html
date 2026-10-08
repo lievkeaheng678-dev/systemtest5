@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Security plan{% endblock %}
+{% block content %}
+<h1>Security plan · ផែនការការពារសុវត្ថិភាព</h1>
+<div class="card">
+  <h2>1. Authentication · ការផ្ទៀងផ្ទាត់អត្តសញ្ញាណ</h2>
+  <p>Passwords are hashed by Django (PBKDF2) and checked against four validators: minimum length 8, common-password list, numeric-only, and similarity to user data. A username is locked for 15 minutes after 5 failed logins.</p>
+  <h2>2. Authorization · ការកំណត់សិទ្ធិ</h2>
+  <p>Access is granted through groups: <span class="tag">Administrator</span> <span class="tag">Staff Manager</span> <span class="tag">Member</span>. Sensitive pages use <code>@permission_required</code>; every other page uses <code>@login_required</code>.</p>
+  <h2>3. Sessions · សម័យប្រើប្រាស់</h2>
+  <p>Sessions are stored in the database, expire after 30 minutes of inactivity or when the browser closes, and use HttpOnly and SameSite cookies. Logout is POST-only and protected by CSRF tokens.</p>
+  <h2>4. Auditing · ការតាមដាន</h2>
+  <p>Logins, logouts, failed logins, registrations, profile edits and account activation changes are recorded with IP address and browser. The log is read-only in the admin panel.</p>
+  <h2>5. Production hardening · ការត្រៀមសម្រាប់ផលិតកម្ម</h2>
+  <p>With <code>DJANGO_DEBUG=0</code> the site forces HTTPS, secure cookies and HSTS. The secret key and allowed hosts come from environment variables.</p>
+</div>
+{% endblock %}

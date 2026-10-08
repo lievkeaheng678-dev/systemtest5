@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Access denied{% endblock %}
+{% block content %}
+<div class="card narrow">
+  <h1>Access denied</h1>
+  <p>Your account does not have permission to open this page.<br>
+     គណនីរបស់អ្នកគ្មានសិទ្ធិចូលមើលទំព័រនេះទេ។</p>
+  <a class="btn" href="{% url 'accounts:home' %}">Back to home</a>
+</div>
+{% endblock %}

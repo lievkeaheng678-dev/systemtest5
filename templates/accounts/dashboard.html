@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<h1>Welcome, {{ user.get_full_name|default:user.username }}</h1>
+<div class="grid">
+  <div class="card">
+    <h2>Account</h2>
+    <dl class="facts">
+      <dt>Username</dt><dd>{{ user.username }}</dd>
+      <dt>Email</dt><dd>{{ user.email|default:"—" }}</dd>
+      <dt>Last login</dt><dd>{{ user.last_login|date:"Y-m-d H:i"|default:"—" }}</dd>
+      <dt>Role</dt>
+      <dd>{% if user.is_superuser %}<span class="tag warn">Superuser</span>{% endif %}
+          {% if user.is_staff %}<span class="tag">Staff</span>{% endif %}</dd>
+    </dl>
+  </div>
+  <div class="card">
+    <h2>Groups &amp; permissions</h2>
+    <p>
+      {% for g in groups %}<span class="tag ok">{{ g.name }}</span> {% empty %}<span class="muted">No group assigned</span>{% endfor %}
+    </p>
+    <p class="muted">{{ permission_count }} permission{{ permission_count|pluralize }} granted.</p>
+  </div>
+  <div class="card">
+    <h2>Session</h2>
+    <p>Expires (if idle): <strong>{{ session_expiry|date:"H:i:s" }}</strong></p>
+    <p class="muted">The timer resets each time you use the site.</p>
+    <a class="btn small" href="{% url 'accounts:password_change' %}">Change password</a>
+  </div>
+</div>
+
+<h2>My recent activity</h2>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Time</th><th>Action</th><th>IP address</th></tr></thead>
+  <tbody>
+  {% for log in recent_activity %}
+    <tr><td>{{ log.created_at|date:"Y-m-d H:i" }}</td><td>{{ log.get_action_display }}</td><td>{{ log.ip_address|default:"—" }}</td></tr>
+  {% empty %}
+    <tr><td colspan="3" class="muted">No activity yet.</td></tr>
+  {% endfor %}
+  </tbody>
+</table>
+</div>
+{% endblock %}
