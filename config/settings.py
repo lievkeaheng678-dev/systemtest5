@@ -10,11 +10,11 @@ import os
 import sys
 from pathlib import Path
 from urllib.parse import parse_qs, unquote, urlparse
-
+from dotenv import load_dotenv
 from django.core.exceptions import ImproperlyConfigured
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-
+load_dotenv(BASE_DIR / ".env")
 
 # ---------------------------------------------------------------------------
 # Environment helpers
@@ -93,15 +93,17 @@ RUNNING_TESTS = len(sys.argv) > 1 and sys.argv[1] == "test"
 DEBUG = env_bool("DEBUG", False)
 PRODUCTION = not DEBUG and not RUNNING_TESTS
 
-SECRET_KEY = env("SECRET_KEY")
+SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY")
+
 if not SECRET_KEY:
-    if DEBUG or RUNNING_TESTS:
-        SECRET_KEY = "insecure-development-key-never-use-in-production"
-    else:
-        raise ImproperlyConfigured(
-            "SECRET_KEY is not set. Locally, copy .env.example to .env. "
-            "On Render, the blueprint generates one for you."
-        )
+    raise RuntimeError(
+        "SECRET_KEY is missing. Set DJANGO_SECRET_KEY "
+        "in your local .env file or Render Environment."
+    )
+
+DEBUG = os.environ.get(
+    "DJANGO_DEBUG", "False"
+).strip().lower() in ("1", "true", "yes")
 
 ALLOWED_HOSTS = env_list("ALLOWED_HOSTS")
 RENDER_HOST = env("RENDER_EXTERNAL_HOSTNAME")
